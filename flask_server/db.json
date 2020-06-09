@@ -1,0 +1,18 @@
+{
+    "customers":[
+        {
+            "name":"Rajesh",
+            "phone":"9718532121",
+            "address":"Heaven Street",
+            "membership":"Platinum",
+            "id":1
+        },
+        {
+            "name":"Shivank",
+            "phone":"9667943369",
+            "address":"Rajiv Nagar",
+            "membership":"Gold",
+            "id":2
+        }
+    ]
+}
