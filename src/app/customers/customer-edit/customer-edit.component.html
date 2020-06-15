@@ -1,1 +1,62 @@
-<p>customer-edit works!</p>
+<form class="example-form" 
+  [formGroup]="editCustomerForm" 
+  #f="ngForm" (ngSubmit)="editCustomer(f)">
+    <fieldset [disabled]="isDisabled">
+      <mat-form-field class="example-full-width">      
+        <mat-label>Name</mat-label>
+        <input 
+          matInput 
+          formControlName="_name" 
+          [errorStateMatcher]="matcher">
+        <mat-error>
+          Name is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+  
+    <mat-form-field class="example-full-width">
+      <input
+        type="text"
+        pattern="[0-9]{10}"
+        ng2TelInput 
+        matInput
+        [ng2TelInputOptions]="{initialCountry: 'in'}"
+        formControlName="_phone"
+        [errorStateMatcher]="matcher">
+      <mat-error>
+        This is an <strong>invalid</strong> phone number.
+      </mat-error>
+    </mat-form-field>
+  
+    <mat-form-field class="example-full-width">
+      <mat-label>Address</mat-label>
+      <input 
+        matInput 
+        formControlName="_address" 
+        [errorStateMatcher]="matcher">
+      <mat-error>
+        Address is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Membership</mat-label>
+        <mat-select 
+          formControlName="_membership" 
+          [errorStateMatcher]="matcher">
+          <mat-option *ngFor="let membership of memberships" [value]="membership.name">
+            {{membership.name}}
+          </mat-option>
+        </mat-select>
+      <mat-error>
+        Membership is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+    <button mat-button color="primary" type="submit"[disabled]="(editCustomerForm.invalid && isDisabled) || editCustomerForm.invalid">
+      EDIT
+    </button>
+  </fieldset>
+</form>
+
+
+      
+  
+  

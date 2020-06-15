@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs';
-import { getCustomers } from './../state/customer.reducer';
+import { getCustomers } from '../state/reducers/customer.reducer';
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Customer } from '../customer.model';
 
 @Injectable({
@@ -9,11 +9,39 @@ import { Customer } from '../customer.model';
 })
 export class CustomerService {
 
-  private customersrUrl = 'http://localhost:5000/';
+  /* private customersrUrl = 'http://localhost:5000/'; */
+  private customersrUrl = 'https://rocky-depths-52331.herokuapp.com/';
 
-  constructor(private http:HttpClient) { }
+  constructor(
+    private http:HttpClient
+    ) { }
 
   getCustomers():Observable<Customer[]>{
-    return this.http.get<Customer[]>(this.customersrUrl);
+    return this.http.get<Customer[]>(this.customersrUrl.concat('getCustomers'));
   }
+  getCustomerById(customerId:string):Observable<Customer>{
+    return this.http.get<Customer>(this.customersrUrl.concat('getCustomersById'),
+    {
+      params:{
+        to_edit : customerId
+      }
+    });
+  }
+  createCustomer(customer:Customer){
+    return this.http.post(this.customersrUrl.concat('create'),
+      JSON.stringify(customer))
+  }
+  updateCustomer(customer:Customer){
+    return this.http.patch(this.customersrUrl.concat('update'),
+      JSON.stringify(customer))
+  }
+  deleteCustomer(customerId: string){
+    return this.http.delete(this.customersrUrl.concat('delete'),
+      {
+        params:{
+          to_delete : customerId
+        }
+      })
+  }
+
 }

@@ -1,15 +1,17 @@
-
+import * as fromCustomer from '../state/reducers/customer.reducer';
 import { Component, OnInit, Directive } from '@angular/core';
 import { Validators, FormControl, FormGroup, FormBuilder, FormGroupDirective, NgForm } from '@angular/forms';
 import { NgControl } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { Customer } from '../customer.model';
+import * as customerActions from '../state/actions/customer.action';
+import { Store } from '@ngrx/store';
+import { CustomerService } from '../customer-services/customer.service';
 
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
-    const isSubmitted = form && form.submitted;
-    return !!(control && control.invalid && (control.touched||control.dirty|| isSubmitted));
+    return !!(control && control.invalid && (control.touched||control.dirty));
   }
 }
 
@@ -20,14 +22,17 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 })
 export class CustomerAddComponent implements OnInit{
 
-  myForm: FormGroup;
+  customerForm: FormGroup;
   matcher = new MyErrorStateMatcher();
-  constructor(fb: FormBuilder) {
-    this.myForm = fb.group({
-        'name': ['', Validators.required],
-        'phone': ['',Validators.required],
-        'address': ['', Validators.required],
-        'membership': ['', Validators.required]
+  constructor(
+    fb: FormBuilder,
+    private store:Store<fromCustomer.AppState>,
+    private customerService:CustomerService) {
+    this.customerForm = fb.group({
+        '_name': ['', Validators.required],
+        '_phone': ['',Validators.required],
+        '_address': ['', Validators.required],
+        '_membership': ['', Validators.required]
 
     });
   }
@@ -45,18 +50,17 @@ export class CustomerAddComponent implements OnInit{
   phone_number: string;
   submitted: boolean;
   
-  submit(credentials):Customer{
+  createCustomer(credentials){
+    console.log(credentials);
     this.customer=credentials.value;
-    this.customer.phone=this.phone_number;
+    this.customer._phone=this.phone_number;
     this.submitted=true;
-    return this.customer;
-  }
-  getNumber($event){
+    this.store.dispatch(new customerActions.CreateCustomer(this.customer));
+    this.customerForm.reset();
+   }
+  getNumber($event: string){
     console.log('number',$event);
     this.phone_number=$event;
-  }
-  show_customer(){
-    console.log(this.customer);
   }
   get customer_Info(){
     if(this.submitted == true)

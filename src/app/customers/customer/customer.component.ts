@@ -1,11 +1,11 @@
 import { CustomerService } from './../customer-services/customer.service';
-import { LoadCustomers } from './../state/customer.action';
+import { LoadCustomers } from '../state/actions/customer.action';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import * as customerActions from '../state/customer.action';
+import * as customerActions from '../state/actions/customer.action';
 import { Customer } from '../customer.model';
-import * as fromCustomer from '../state/customer.reducer';
+import * as fromCustomer from '../state/reducers/customer.reducer';
 import { map, takeUntil } from 'rxjs/operators';
 import {Subject} from 'rxjs';
 @Component({

@@ -1,7 +1,7 @@
-<form class="example-form" [formGroup]="myForm" #f="ngForm" (ngSubmit)="submit(f)">
+<form class="example-form" [formGroup]="customerForm" #f="ngForm" (ngSubmit)="createCustomer(f)">
   <mat-form-field class="example-full-width">
     <mat-label>Name</mat-label>
-    <input matInput formControlName="name" [errorStateMatcher]="matcher">
+    <input matInput formControlName="_name" [errorStateMatcher]="matcher">
     <mat-error>
       Name is <strong>required</strong>
     </mat-error>
@@ -15,7 +15,7 @@
           matInput
           [ng2TelInputOptions]="{initialCountry: 'in'}"
           (ng2TelOutput)="getNumber($event)"
-          formControlName="phone"
+          formControlName="_phone"
           [errorStateMatcher]="matcher">
       <mat-error >This is an <strong>invalid</strong> phone number.
       </mat-error>
@@ -23,14 +23,14 @@
 
     <mat-form-field class="example-full-width">
       <mat-label>Address</mat-label>
-      <input matInput formControlName="address" [errorStateMatcher]="matcher">
+      <input matInput formControlName="_address" [errorStateMatcher]="matcher">
       <mat-error>
         Address is <strong>required</strong>
       </mat-error>
     </mat-form-field>
     <mat-form-field>
       <mat-label>Membership</mat-label>
-        <mat-select formControlName="membership" [errorStateMatcher]="matcher">
+        <mat-select formControlName="_membership" [errorStateMatcher]="matcher">
           <mat-option *ngFor="let membership of memberships" [value]="membership.name">
             {{membership.name}}
           </mat-option>
@@ -39,8 +39,7 @@
           Membership is <strong>required</strong>
         </mat-error>
     </mat-form-field>
-    <button mat-button color="primary" type="submit" [disabled]="myForm.invalid">
-      Submit
+    <button mat-button color="primary" type="submit" [disabled]="customerForm.invalid">
+      ADD
     </button>
 </form>
-<button mat-button color="warn" (click)="show_customer()" >Show</button>
